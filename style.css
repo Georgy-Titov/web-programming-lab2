@@ -1,0 +1,136 @@
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background-color: #f3f4f6;
+  color: #222;
+}
+
+.container {
+  max-width: 600px;
+  margin: 40px auto;
+  background: #fff;
+  border-radius: 10px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  padding: 20px;
+  position: relative;
+}
+
+h1 {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.error-message {
+  position: absolute;
+  top: 10px;
+  left: 50%;
+  transform: translateX(-50%) translateY(-10px);
+  background-color: #ef4444;
+  color: white;
+  padding: 8px 14px;
+  border-radius: 6px;
+  font-size: 14px;
+  opacity: 0;
+  pointer-events: none;
+  z-index: 10;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+  transition: opacity 0.6s ease, transform 0.4s ease;
+}
+
+.error-message.show {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translateX(-50%) translateY(0);
+}
+
+.error-message.hide {
+  opacity: 0;
+  pointer-events: none;
+  transform: translateX(-50%) translateY(-10px);
+}
+
+form {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+input, select, button {
+  padding: 10px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  font-size: 14px;
+}
+
+input[type="text"], input[type="date"] {
+  flex: 1;
+}
+
+button {
+  cursor: pointer;
+  background-color: #2563eb;
+  color: white;
+  border: none;
+}
+
+button:hover {
+  background-color: #1d4ed8;
+}
+
+.todo-list {
+  margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.todo-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+  border-radius: 6px;
+  background: #f9fafb;
+  border: 1px solid #ddd;
+}
+
+.todo-item.completed .title {
+  text-decoration: line-through;
+  color: gray;
+}
+
+.todo-item .title {
+  font-weight: normal;
+}
+
+.todo-item .date {
+  color: #777;
+  font-size: 13px;
+  margin-left: 8px;
+}
+
+.actions button {
+  margin-left: 5px;
+  padding: 6px 8px;
+  font-size: 12px;
+}
+
+.edit-fields {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.edit-fields input[type="text"] {
+  flex: 1;
+}
+
+.edit-fields input[type="date"] {
+  width: 120px;
+}
+
+@media (max-width: 500px) {
+  form {
+    flex-direction: column;
+  }
+}
