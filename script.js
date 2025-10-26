@@ -1,18 +1,14 @@
-// Подключаем CSS динамически
 const style = document.createElement('link');
 style.rel = 'stylesheet';
 style.href = 'style.css';
 document.head.appendChild(style);
 
-// --- Состояние ---
 let tasks = JSON.parse(localStorage.getItem('tasks')) || [];
 
-// --- Создание DOM ---
 document.addEventListener('DOMContentLoaded', () => {
   const container = document.createElement('div');
   container.className = 'container';
 
-  // сообщение об ошибке
   const errorMsg = document.createElement('div');
   errorMsg.className = 'error-message';
   container.appendChild(errorMsg);
@@ -34,7 +30,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
   form.append(inputText, inputDate, addBtn);
 
-  // --- фильтр, сортировка, поиск ---
   const controls = document.createElement('div');
   controls.style.marginTop = '15px';
   controls.style.display = 'flex';
@@ -67,13 +62,11 @@ document.addEventListener('DOMContentLoaded', () => {
   container.append(title, form, controls, list);
   document.body.appendChild(container);
 
-  // --- функции ---
   function showError(message) {
     errorMsg.textContent = message;
     errorMsg.classList.remove('hide');
     errorMsg.classList.add('show');
 
-    // через 2.5 секунды — плавное исчезновение
     setTimeout(() => {
       errorMsg.classList.remove('show');
       errorMsg.classList.add('hide');
@@ -92,7 +85,6 @@ document.addEventListener('DOMContentLoaded', () => {
     if (filter.value === 'active') filtered = filtered.filter(t => !t.done);
     if (filter.value === 'completed') filtered = filtered.filter(t => t.done);
 
-    // поиск
     const term = search.value.toLowerCase();
     filtered = filtered.filter(t => t.title.toLowerCase().includes(term));
 
@@ -116,7 +108,6 @@ document.addEventListener('DOMContentLoaded', () => {
       item.draggable = true;
       item.dataset.id = task.id;
 
-      // --- Обычный режим отображения ---
       const left = document.createElement('div');
       left.className = 'left';
 
@@ -233,7 +224,6 @@ document.addEventListener('DOMContentLoaded', () => {
     ).element;
   }
 
-  // --- события ---
   form.addEventListener('submit', e => {
     e.preventDefault();
     const title = inputText.value.trim();
