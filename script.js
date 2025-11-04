@@ -17,6 +17,7 @@ document.addEventListener('DOMContentLoaded', () => {
   title.textContent = 'To-Do list';
 
   const form = document.createElement('form');
+
   const inputText = document.createElement('input');
   inputText.type = 'text';
   inputText.placeholder = 'Введите задачу...';
@@ -37,18 +38,28 @@ document.addEventListener('DOMContentLoaded', () => {
   controls.style.gap = '10px';
 
   const filter = document.createElement('select');
-  filter.innerHTML = `
-    <option value="all">Все</option>
-    <option value="active">Невыполненные</option>
-    <option value="completed">Выполненные</option>
-  `;
+  const optionAll = document.createElement('option');
+  optionAll.value = 'all';
+  optionAll.textContent = 'Все';
+  const optionActive = document.createElement('option');
+  optionActive.value = 'active';
+  optionActive.textContent = 'Невыполненные';
+  const optionCompleted = document.createElement('option');
+  optionCompleted.value = 'completed';
+  optionCompleted.textContent = 'Выполненные';
+  filter.append(optionAll, optionActive, optionCompleted);
 
   const sort = document.createElement('select');
-  sort.innerHTML = `
-    <option value="none">Без сортировки</option>
-    <option value="asc">По дате ↑</option>
-    <option value="desc">По дате ↓</option>
-  `;
+  const optionNone = document.createElement('option');
+  optionNone.value = 'none';
+  optionNone.textContent = 'Без сортировки';
+  const optionAsc = document.createElement('option');
+  optionAsc.value = 'asc';
+  optionAsc.textContent = 'По дате ↑';
+  const optionDesc = document.createElement('option');
+  optionDesc.value = 'desc';
+  optionDesc.textContent = 'По дате ↓';
+  sort.append(optionNone, optionAsc, optionDesc);
 
   const search = document.createElement('input');
   search.type = 'text';
@@ -66,7 +77,6 @@ document.addEventListener('DOMContentLoaded', () => {
     errorMsg.textContent = message;
     errorMsg.classList.remove('hide');
     errorMsg.classList.add('show');
-
     setTimeout(() => {
       errorMsg.classList.remove('show');
       errorMsg.classList.add('hide');
@@ -78,17 +88,15 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   function renderTasks() {
-    list.innerHTML = '';
-    let filtered = [...tasks];
+    while (list.firstChild) {
+      list.removeChild(list.firstChild);
+    }
 
-    // фильтрация
+    let filtered = [...tasks];
     if (filter.value === 'active') filtered = filtered.filter(t => !t.done);
     if (filter.value === 'completed') filtered = filtered.filter(t => t.done);
-
     const term = search.value.toLowerCase();
     filtered = filtered.filter(t => t.title.toLowerCase().includes(term));
-
-    // сортировка
     if (sort.value === 'asc') filtered.sort((a, b) => (a.date || '').localeCompare(b.date || ''));
     if (sort.value === 'desc') filtered.sort((a, b) => (b.date || '').localeCompare(a.date || ''));
 
@@ -126,7 +134,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
       const date = document.createElement('span');
       date.className = 'date';
-      date.textContent = task.date ? `(${task.date})` : '';
+      if (task.date) date.textContent = `(${task.date})`;
 
       left.append(checkbox, text, date);
 
@@ -148,7 +156,6 @@ document.addEventListener('DOMContentLoaded', () => {
       actions.append(editBtn, delBtn);
       item.append(left, actions);
 
-      // drag & drop
       item.addEventListener('dragstart', () => item.classList.add('dragging'));
       item.addEventListener('dragend', () => {
         item.classList.remove('dragging');
@@ -170,10 +177,8 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // --- редактирование ---
   function enterEditMode(item, task) {
-    item.innerHTML = '';
-
+    item.textContent = '';
     const left = document.createElement('div');
     left.className = 'edit-fields';
 
